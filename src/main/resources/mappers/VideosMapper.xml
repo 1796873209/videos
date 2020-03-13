@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dou.videos.dao.VideosDao">
+
+    <!-- 插入-->
+    <insert id="insert" parameterType="com.dou.videos.entity.Videos">
+        insert into videos(uname,subject,vname,submitTime,uid) values(#{uname},#{subject},#{vname},#{submitTime},#{uid})
+    </insert>
+
+    <!-- 展示列表-->
+    <select id="getAll" resultType="com.dou.videos.entity.Videos">
+        select * from videos
+    </select>
+
+    <!-- 删除-->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from videos where vid=#{vid}
+    </delete>
+
+    <!-- 根据关键字模糊查询-->
+    <select id="getBy" parameterType="com.dou.videos.entity.Videos" resultType="com.dou.videos.entity.Videos">
+        select * from videos where uname like #{uname} or vname like #{vname} or subject like #{subject}
+    </select>
+
+    <!--根据视频id查找 -->
+    <select id="findById" parameterType="java.lang.String" resultType="com.dou.videos.entity.Videos">
+        select * from videos where vid=#{vid}
+    </select>
+
+    <!--修改 -->
+    <update id="update" parameterType="com.dou.videos.entity.Videos">
+        update videos set praise=#{praise} where vid=#{vid}
+    </update>
+    <update id="update1" parameterType="com.dou.videos.entity.Videos">
+        update videos set comment=#{comment} where vid=#{vid}
+    </update>
+</mapper>

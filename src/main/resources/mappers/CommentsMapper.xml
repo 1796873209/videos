@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dou.videos.dao.CommentsDao">
+
+    <!--添加 -->
+    <insert id="insertComment" parameterType="com.dou.videos.entity.Comments">
+        insert into comments(uname,content,vid,uid) values(#{uname},#{content},#{vid},#{uid})
+    </insert>
+
+    <!--获取列表 -->
+    <select id="getAll" resultType="com.dou.videos.entity.Comments">
+        select * from comments
+    </select>
+</mapper>

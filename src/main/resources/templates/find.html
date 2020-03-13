@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索页面</title>
+
+    <script type="text/javascript" th:src="@{/static/js/jquery.js}"></script>
+
+    <style type="text/css">
+
+        body{
+            width:899px;
+        }
+
+        #d1{
+            width: 338px;
+            height:30px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        #sou{
+            width: 38px;
+            height:30px;
+            background-color: orange;
+            float: right;
+        }
+
+        #i1{
+            width: 300px;
+            height:30px;
+            border-color: orange;
+            height: 30px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="d1">
+    <form action="/find" method="post" name="n1">
+        <input id="i1" type="text" name="search" >
+        <div id="sou"><a href="javascript:submit()">搜索</a></div>
+    </form>
+</div>
+
+
+</body>
+<script>
+    function submit() {
+        document.n1.submit();
+    }
+
+</script>
+</html>

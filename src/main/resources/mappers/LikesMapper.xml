@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dou.videos.dao.LikesDao">
+    <!-- 点赞-->
+    <insert id="addLike" parameterType="com.dou.videos.entity.Likes">
+        insert into likes(uid,vid) values(#{uid},#{vid})
+    </insert>
+
+    <!-- 取消点赞-->
+    <delete id="deleteLike" parameterType="com.dou.videos.entity.Likes">
+        delete from likes where vid=#{vid}
+    </delete>
+
+    <!-- 查找-->
+    <select id="find" parameterType="com.dou.videos.entity.Likes" resultType="com.dou.videos.entity.Likes">
+        select * from likes where uid=#{uid} and vid=#{vid}
+    </select>
+</mapper>

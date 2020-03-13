@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>视频中心</title>
+
+    <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}" type="text/css"></link>
+    <script type="text/javascript" th:src="@{/static/js/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+
+    <style type="text/css">
+        .float{
+            position:fixed;
+            z-index:999999;
+            top:0px;
+            margin-left:0px;
+        }
+        #t1{
+            display: none;
+            position: relative;
+            left: 100px;
+            height: 150px;
+
+        }
+
+        .c1{
+            display: none;
+            height: 100px;
+            width: 0px;
+        }
+        body{
+            width: 80%;
+            margin: 0 auto;
+        }
+        #n1{
+            color: red;
+        }
+        #n2{
+            width: 399px;
+            height: 150px;
+            float: left;
+        }
+        #a2{
+
+            background-color: silver;
+        }
+
+        #t2{
+            width: 499px;
+            margin: 0 auto;
+            background-color:white;
+        }
+        #m{
+            width: 80%;
+            margin: 0 auto;
+            color: gray;
+            float: left;
+        }
+
+
+        a:LINK {
+            text-decoration: none;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+<div id="a2">
+    <table id="t2" th:each="video:${videoList}">
+        <tr>
+            <td>
+                <p id="n1">短视频作者：<input type="hidden" th:text="${video.uname}"></p>
+            </td>
+            <td align="right">
+                <button style="color: blue"><a th:href="@{'/delete/'+${video.vid}}">删除</a></button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <p id="n2">短视频主题：<input type="hidden" th:text="${video.subject}"></p>
+            </td>
+        </tr>
+
+        <tr align="left">
+            <td>
+                <video th:class="'video'+${video.vid}" th:id="${video.vname}" width="220" height="240" controls>
+                    <source th:src="@{/static/upload/{videoName}(videoName=${video.vname})}" type="video/mp4">
+                </video>
+            </td>
+        </tr>
+
+        <tr>
+            <td><a style="color: blue;" href="javascript:" th:onclick="javascript:praise([[${video.vid}]],[[${video.uid}]])">点赞：</a><span th:id="'result'+${video.vid}"><input type="hidden" th:text="${video.praise}"/></span>
+
+            <br><button class="btn btn-primary btn-lg" data-toggle="modal" th:attr="data-target='#myModal'+${video.vid}">
+            点击评论
+            </button><br><br>
+
+            <div class="modal fade" th:id="'myModal'+${video.vid}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">&times;
+                        </button>
+
+                        <h4 class="modal-title" id="myModalLabel">
+                            评论
+                        </h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <form th:action="@{'/comment/'+${video.vid}}" method="post" name="form">
+                            用户id：<input type="hidden" name="uid" class="form-control" th:text="${user.uid}"/><br>
+                            用户名：<input type="hidden" name="uname" class="form-control" th:text="${user.uname}"/><br>
+                            视频id：<input type="hidden" name="vid" class="form-control" th:text="${video.vid}"/><br>
+                            内容：<input type="text" name="content" class="form-control"><br>
+                            <button type="submit" id="pl" class="btn btn-primary" >
+                                评论
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">关闭
+                        </button>
+
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+            </div>
+            </td>
+        </tr>
+
+        <tr th:each="comment:${comments}">
+            <td><<input type="hidden" th:text="${comment.uname}" />:></td>
+            <td><input type="hidden" th:text="${comment.content}" /></td>
+        </tr>
+        <br><br>
+    </table>
+</div>
+<div id="r"></div>
+</body>
+<script>
+    function praise(object1,object2){
+        var params = {
+            vid : object1,
+            uid : object2
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/like",
+            data: params,
+            dataType:"text",
+            success: function(data){
+
+                var a = JSON.parse(data);
+                //使用这个方法解析json
+
+                $("#result"+a[1]).text(a[0]);//将返回的值显示到页面上
+            },
+            error: function(data){
+                alert("data=" + data);
+                return false;
+            }
+        });
+    }
+</script>
+</html>

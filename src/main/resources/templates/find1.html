@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索结果</title>
+
+    <style type="text/css">
+        body{
+            width:899px;
+            margin: 0 auto;
+        }
+        #p{
+            height: 300px;
+
+            background-color:inactiveborder;
+            border: outset;
+        }
+
+        a:LINK {
+            text-decoration: none;
+            color: teal;
+        }
+
+        #sp{
+            margin-top: 78px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="sp" th:each="video:${videoList}">
+
+        <div id="p"><a target="_blank" th:href="@{'/static/upload/'+${video.vname}}"><strong>
+            短视频作者:<input type="hidden" th:text="${video.uname}" /></strong><br><font style="font-style: oblique;">
+            上传时间：  <input type="hidden" th:text="${video.submitTime}" /></font></a><br/>&nbsp;&nbsp;
+            主题：<input type="hidden" th:text="${video.subject}"/><br/>
+
+            <video class="video<input th:value='${video.vid}'/>" id="<input th:value='${video.vname}'/>" width="220" height="240" controls>
+            <source th:src="@{/static/upload/{videoName}(videoName=${video.vname})}" type="video/mp4">
+            </video>
+
+        </div>
+        <br/>
+</div><br>
+
+</body>
+</html>
